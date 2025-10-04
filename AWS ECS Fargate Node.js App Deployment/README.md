@@ -47,10 +47,10 @@ Below are sample screenshots from the actual deployment process:
   ![ECS Cluster](screenshots/ECS_cluster.jpg)
 
 - **Task Details (showing running task and network info):**
-  ![ECS Task](screenshots/ECS_task.jpg)
+  ![ECS Task](screenshots/ECS_Task.jpg)
 
 - **CloudWatch Logs (showing successful app start):**
-  ![CloudWatch Logs](screenshots/ECR_Logs.jpg)
+  ![CloudWatch Logs](screenshots/ECS_Logs.jpg)
 
 - **Security Group with port 3000 open:**
   ![Security Group](screenshots/Security_group.jpg)
