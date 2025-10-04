@@ -44,7 +44,7 @@ Below are sample screenshots from the actual deployment process:
   ![ECR Repository](screenshots/ECR_Repositiory.jpg)
 
 - **ECR Image:**
-- ![ECR_Image](screenshots/ECS_image.jpg)
+- ![ECR_Image](screenshots/ECR_Image.jpg)
 
 - **ECS Cluster and Service Running:**
   ![ECS Cluster](screenshots/ECS_cluster.jpg)
