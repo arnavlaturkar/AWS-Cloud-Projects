@@ -12,7 +12,7 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_pab" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
-  bucket = aws_s3_bucket.tf_state_bucket.id # or .my_bucket for module
+  bucket = aws_s3_bucket.my_bucket.id # or .my_bucket for module
 
   rule {
     apply_server_side_encryption_by_default {
