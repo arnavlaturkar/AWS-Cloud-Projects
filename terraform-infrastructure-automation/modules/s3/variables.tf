@@ -7,7 +7,7 @@ variable "bucket_name" {
 variable "tags" {
   description = "Tags for the S3 bucket"
   type        = map(string)
-  default     = {
+  default = {
     Name = "terraform-bucket-2025-arnav"
   }
 }

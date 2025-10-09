@@ -31,7 +31,7 @@ variable "egress_cidr_blocks" {
 variable "tags" {
   description = "Tags for Security Group"
   type        = map(string)
-  default     = {
+  default = {
     Name = "terraform_allow_ssh"
   }
 }
