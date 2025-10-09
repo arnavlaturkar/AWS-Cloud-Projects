@@ -10,11 +10,3 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_pab" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-
-resource "aws_s3_bucket_ownership_controls" "my_bucket_ownership" {
-  bucket = aws_s3_bucket.my_bucket.id
-
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}

@@ -4,3 +4,7 @@ terraform.tfstate.backup
 *.tfplan
 .DS_Store
 modules/.DS_Store
+.DS_Store
+terraform.lock.hcl
+.DS_Store
+terraform.lock.hcl
