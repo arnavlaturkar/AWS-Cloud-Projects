@@ -39,6 +39,14 @@ resource "aws_instance" "example" {
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t3.micro"
 
+  metadata_options {
+    http_tokens = "required"
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
   tags = {
     Name = "IAC_instance"
   }
