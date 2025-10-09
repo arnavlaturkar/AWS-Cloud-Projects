@@ -1,8 +1,20 @@
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "terraform-bucket-2025-arnav"     
+  bucket = "terraform-bucket-2025-arnav"
 }
 
-resource "aws_s3_bucket_acl" "my_bucket_acl" {
- bucket = aws_s3_bucket.my_bucket.id  # Refers to the above bucket
- acl    = "private"
+resource "aws_s3_bucket_public_access_block" "my_bucket_pab" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "my_bucket_ownership" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
