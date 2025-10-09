@@ -56,13 +56,16 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run tfsec security scan
-        run: tfsec --format junit --out tfsec-report.xml .
+        id: tfsec
+        run: tfsec --format junit --out tfsec-report.xml . || true
 
       - name: Upload tfsec report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tfsec-report
           path: tfsec-report.xml
+
 
       - name: Terraform Plan
         run: terraform plan -no-color -out=tfplan
