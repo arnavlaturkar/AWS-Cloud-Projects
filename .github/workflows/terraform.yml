@@ -56,8 +56,11 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run tfsec security scan
-        id: tfsec
-        run: tfsec --format junit --out tfsec-report.xml . || true
+        run: |
+         tfsec .                # prints results to stdout (to see failures in the log)
+         tfsec --format junit --out tfsec-report.xml .  # still produce XML for artifact
+        continue-on-error: true
+
 
       - name: Upload tfsec report
         if: always()
