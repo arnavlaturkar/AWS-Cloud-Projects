@@ -3,3 +3,4 @@
 .terraform.lock.hcl
 *.swp
 .DS_Store
+.DS_Store
