@@ -2,14 +2,11 @@ name: Terraform Infrastructure CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - 'terraform-infrastructure-automation/**'
-
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - 'terraform-infrastructure-automation/**'
 
@@ -47,15 +44,13 @@ jobs:
           terraform validate
 
       - name: Install tfsec
-        run: |
-          curl -sSL https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+        run: curl -sSL https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run tfsec security scan
         run: |
           tfsec . || echo "tfsec found issues—continuing"
           tfsec --format junit --out tfsec-report.xml . || true
         continue-on-error: true
-
 
       - name: Upload tfsec report
         if: always()
@@ -78,7 +73,6 @@ jobs:
 
   terraform-apply:
     name: Terraform Apply
-   
     needs: terraform-plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
