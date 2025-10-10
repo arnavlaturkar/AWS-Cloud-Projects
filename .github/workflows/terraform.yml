@@ -10,17 +10,15 @@ env:
   TF_VERSION: 1.13.3
 
 jobs:
-  terraform-plan:
-    name: Terraform Plan & Artifact Upload
+  terraform:
+    name: Terraform Plan & Apply
     runs-on: ubuntu-latest
-
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
+          fetch-depth: 1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -68,40 +66,6 @@ jobs:
         with:
           name: terraform-plan
           path: terraform-infrastructure-automation/tfplan
-
-  terraform-apply:
-    name: Terraform Apply
-    needs: terraform-plan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-          
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_IAC }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IAC }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Download terraform plan artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
-          path: terraform-infrastructure-automation
-
-      - name: Terraform init
-        working-directory: terraform-infrastructure-automation
-        run: terraform init -input=false
 
       - name: Terraform apply
         working-directory: terraform-infrastructure-automation
