@@ -32,6 +32,9 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
+      - name: Terraform init
+        run: terraform init -input=false
+
       - name: Terraform fmt & validate
         run: |
           terraform fmt -recursive
@@ -52,9 +55,6 @@ jobs:
         with:
           name: tfsec-report
           path: tfsec-report.xml
-
-      - name: Terraform init
-        run: terraform init -input=false
 
       - name: Terraform plan
         run: terraform plan -no-color -out=tfplan -input=false
