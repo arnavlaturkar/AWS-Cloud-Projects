@@ -2,13 +2,7 @@ name: Terraform Infrastructure CI/CD
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'terraform-infrastructure-automation/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'terraform-infrastructure-automation/**'
+  workflow_dispatch:
 
 env:
   AWS_REGION: us-east-1
