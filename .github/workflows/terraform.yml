@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -33,12 +31,13 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
 
       - name: Terraform init
-        working-directory: terraform-infrastructure-automation
-        run: terraform init -input=false
+        run: |
+          cd terraform-infrastructure-automation
+          terraform init -input=false
 
       - name: Terraform fmt & validate
-        working-directory: terraform-infrastructure-automation
         run: |
+          cd terraform-infrastructure-automation
           terraform fmt -recursive
           terraform validate
 
@@ -46,27 +45,40 @@ jobs:
         run: curl -sSL https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
       - name: Run tfsec security scan
-        working-directory: terraform-infrastructure-automation
         run: |
+          cd terraform-infrastructure-automation
           tfsec . || echo "tfsec found issues—continuing"
-          tfsec --format junit --out=tfsec-report.xml . || true
+          tfsec --format junit --out=tfsec-report.xml .
 
       - name: Upload tfsec report
+        run: |
+          cd terraform-infrastructure-automation
+          ls -la
+          zip tfsec-report.zip tfsec-report.xml
+        shell: bash
+      - name: Publish tfsec artifact
         uses: actions/upload-artifact@v4
         with:
           name: tfsec-report
-          path: terraform-infrastructure-automation/tfsec-report.xml
+          path: terraform-infrastructure-automation/tfsec-report.zip
 
       - name: Terraform plan
-        working-directory: terraform-infrastructure-automation
-        run: terraform plan -no-color -out=tfplan -input=false
+        run: |
+          cd terraform-infrastructure-automation
+          terraform plan -no-color -out=tfplan
 
-      - name: Upload terraform plan artifact
+      - name: Publish plan artifact
+        run: |
+          cd terraform-infrastructure-automation
+          zip tfplan.zip tfplan
+        shell: bash
+      - name: Publish terraform-plan artifact
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
-          path: terraform-infrastructure-automation/tfplan
+          path: terraform-infrastructure-automation/tfplan.zip
 
       - name: Terraform apply
-        working-directory: terraform-infrastructure-automation
-        run: terraform apply -auto-approve tfplan
+        run: |
+          cd terraform-infrastructure-automation
+          terraform apply -auto-approve tfplan
